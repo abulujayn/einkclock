@@ -34,6 +34,21 @@ try:
         if "time" in locals() and datetime.now().minute == time.minute:
             continue
 
+        # Go to sleep at midnight
+        if datetime.now().strftime("%H%M") == "0000":
+            image = Image.new("1", (width, height), 255)
+            draw = ImageDraw.Draw(image)
+            draw.text((width / 2, height / 2), "Sleeping", fill = 0, font = font48, anchor = "mm")
+            epd.init()
+            epd.display(epd.getbuffer(image))
+            time.sleep(60 * 60 * 6) # 6 hours
+            # Create base image again
+            base_image = Image.new("1", (width, height), 255)
+            draw = ImageDraw.Draw(base_image)
+            draw.text((0, 0), datetime.now().strftime("%a %d/%m/%Y"), fill = 0, font = font12)
+            epd.displayPartBaseImage(epd.getbuffer(base_image.copy().rotate(180)))
+            continue
+
         # Rereate image
         image = base_image.copy()
         draw = ImageDraw.Draw(image)
