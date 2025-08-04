@@ -4,7 +4,7 @@ Description=Driver for e-ink display
 [Service]
 Type=simple
 WorkingDirectory=/home/abulujayn/clock
-ExecStart=/usr/bin/python /home/abulujayn/clock/main.py
+ExecStart=/home/abulujayn/clock/venv/bin/python /home/abulujayn/clock/main.py
 KillSignal=SIGINT
 
 [Install]
