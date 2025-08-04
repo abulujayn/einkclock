@@ -1,5 +1,7 @@
 import logging
+from time import sleep
 from datetime import datetime
+from date import draw_date,draw_date2
 from PIL import Image,ImageDraw,ImageFont
 
 from waveshare import epd2in13_V4
@@ -19,14 +21,18 @@ try:
     height = epd.width
 
     # Create fonts
+    font10 = ImageFont.truetype("font.ttf", 10)
     font12 = ImageFont.truetype("font.ttf", 12)
+    font14 = ImageFont.truetype("font.ttf", 14)
+    font16 = ImageFont.truetype("font.ttf", 16)
     font24 = ImageFont.truetype("font.ttf", 24)
     font48 = ImageFont.truetype("font.ttf", 48)
 
     # Create image
     base_image = Image.new("1", (width, height), 255)
     draw = ImageDraw.Draw(base_image)
-    draw.text((0, 0), datetime.now().strftime("%a %d/%m/%Y"), fill = 0, font = font12)
+    draw_date(draw, font16)
+    draw_date2(draw, 16, font10)
     epd.displayPartBaseImage(epd.getbuffer(base_image.copy().rotate(180)))
 
     while running:
@@ -41,11 +47,11 @@ try:
             draw.text((width / 2, height / 2), "Sleeping", fill = 0, font = font48, anchor = "mm")
             epd.init()
             epd.display(epd.getbuffer(image))
-            time.sleep(60 * 60 * 6) # 6 hours
+            sleep(60 * 60 * 6) # 6 hours
             # Create base image again
             base_image = Image.new("1", (width, height), 255)
             draw = ImageDraw.Draw(base_image)
-            draw.text((0, 0), datetime.now().strftime("%a %d/%m/%Y"), fill = 0, font = font12)
+            draw_date(draw, font12)
             epd.displayPartBaseImage(epd.getbuffer(base_image.copy().rotate(180)))
             continue
 
@@ -68,3 +74,4 @@ except KeyboardInterrupt:
     logging.info("Exiting")
     epd2in13_V4.epdconfig.module_exit(cleanup=True)
     running = False
+
