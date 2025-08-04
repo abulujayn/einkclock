@@ -1,0 +1,12 @@
+[Unit]
+Description=Driver for e-ink display
+
+[Service]
+Restart=always
+Type=simple
+WorkingDirectory=/home/abulujayn/clock
+ExecStart=/usr/bin/python /home/abulujayn/clock/main.py
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
