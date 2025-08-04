@@ -23,18 +23,15 @@ try:
     font24 = ImageFont.truetype("font.ttf", 24)
     font48 = ImageFont.truetype("font.ttf", 48)
 
-    # Init time
-    time = datetime.now()
-
     # Create image
     base_image = Image.new("1", (width, height), 255)
     draw = ImageDraw.Draw(base_image)
-    draw.text((0, 0), time.strftime("%a %d/%m/%Y"), fill = 0, font = font12)
+    draw.text((0, 0), datetime.now().strftime("%a %d/%m/%Y"), fill = 0, font = font12)
     epd.displayPartBaseImage(epd.getbuffer(base_image.copy().rotate(180)))
 
     while running:
-        # Make sure at least one second has passed
-        if datetime.now().second == time.second:
+        # Make sure at least one minute has passed
+        if "time" in locals() and datetime.now().minute == time.minute:
             continue
 
         # Rereate image
@@ -42,7 +39,7 @@ try:
         draw = ImageDraw.Draw(image)
         # Draw time
         time = datetime.now()
-        draw.text((width / 2, height / 2), time.strftime("%H:%M:%S"), fill = 0, font = font48, anchor = "mm")
+        draw.text((width / 2, height / 2), time.strftime("%H:%M"), fill = 0, font = font48, anchor = "mm")
         # Rotate image
         image = image.rotate(180)
 
