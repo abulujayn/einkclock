@@ -27,9 +27,10 @@ try:
     time = datetime.now()
 
     # Create image
-    image = Image.new("1", (width, height), 255)
-    draw = ImageDraw.Draw(image)
-    epd.displayPartBaseImage(epd.getbuffer(image))
+    base_image = Image.new("1", (width, height), 255)
+    draw = ImageDraw.Draw(base_image)
+    draw.text((0, 0), time.strftime("%a %d/%m/%Y"), fill = 0, font = font12)
+    epd.displayPartBaseImage(epd.getbuffer(base_image.copy().rotate(180)))
 
     while running:
         # Make sure at least one second has passed
@@ -37,7 +38,7 @@ try:
             continue
 
         # Rereate image
-        image = Image.new("1", (width, height), 255)
+        image = base_image.copy()
         draw = ImageDraw.Draw(image)
         # Draw time
         time = datetime.now()
