@@ -51,7 +51,8 @@ try:
             # Create base image again
             base_image = Image.new("1", (width, height), 255)
             draw = ImageDraw.Draw(base_image)
-            draw_date(draw, font12)
+            draw_date(draw, font16)
+            draw_date2(draw, 16, font10)
             epd.displayPartBaseImage(epd.getbuffer(base_image.copy().rotate(180)))
             continue
 
@@ -65,7 +66,12 @@ try:
         image = image.rotate(180)
 
         # Display image
-        epd.displayPartial(epd.getbuffer(image))
+        if time.minute == 0:
+            # Full refresh every hour
+            epd.init()
+            epd.display(epd.getbuffer(image))
+        else:
+            epd.displayPartial(epd.getbuffer(image))
 
     epd.sleep()
 except IOError as e:
