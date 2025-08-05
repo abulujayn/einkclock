@@ -1,0 +1,8 @@
+colorzero==2.0
+gpiozero==2.0.1
+hijridate==2.5.0
+lgpio==0.2.2.0
+pigpio==1.78
+pillow==11.3.0
+rpi-lgpio==0.6
+spidev==3.5
